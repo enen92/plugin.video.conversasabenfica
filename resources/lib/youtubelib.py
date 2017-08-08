@@ -120,7 +120,7 @@ def get_videos(name,playlist_id,token="",page_num=1):
                     yield build_video_item(title.encode('utf-8'), thumb, videoid, infolabels, video_info, audio_info)
 
     if totalpages > 1 and (page_num + 1) <= totalpages:
-        nextpage = ListItem("[B]%s[/B] (%s/%s)" % (kodiutils.get_setting(32008), str(page_num), str(totalpages)))
+        nextpage = ListItem("[B]%s[/B] (%s/%s)" % (kodiutils.get_string(32008), str(page_num), str(totalpages)))
         nextpage.setProperty("type", "next")
         nextpage.setProperty("page", str(page_num+1))
         nextpage.setProperty("token", str(nextpagetoken))
