@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import routing
-import logging
 import xbmcaddon
 import xbmcplugin
 from resources.lib import kodiutils

@@ -14,5 +14,5 @@ def return_duration_as_seconds(string):
         if seconds:
             totalseconds += int(seconds[0])
         return str(totalseconds)
-    except:
+    except IndexError:
         return '0'

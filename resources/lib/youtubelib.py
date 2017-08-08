@@ -19,7 +19,7 @@ def get_playlists():
     api_endpoint = 'https://www.googleapis.com/youtube/v3/playlists?part=snippet,contentDetails&channelId=%s&maxResults=50&key=%s' % (CHANNEL_ID,YOUTUBE_API_KEY)
     try:
         resp = requests.get(api_endpoint).json()
-    except:
+    except ValueError:
         kodiutils.log(kodiutils.get_string(32003), xbmc.LOGERROR)
     if "items" in resp.keys():
         for playlist in resp["items"]:
@@ -36,7 +36,7 @@ def get_upload_playlist():
     api_endpoint = 'https://www.googleapis.com/youtube/v3/channels?part=contentDetails&id=%s&key=%s' % (CHANNEL_ID,YOUTUBE_API_KEY)
     try:
         resp = requests.get(api_endpoint).json()
-    except:
+    except ValueError:
         kodiutils.log(kodiutils.get_string(32004), xbmc.LOGERROR)
         return None
     if "items" in resp.keys():
@@ -52,7 +52,7 @@ def get_videos(name,playlist_id,token="",page_num=1):
 
     try:
         resp = requests.get(url_api).json()
-    except:
+    except ValueError:
         kodiutils.log(kodiutils.get_string(32004), xbmc.LOGERROR)
         resp = None
 
@@ -71,7 +71,7 @@ def get_videos(name,playlist_id,token="",page_num=1):
             url_api = 'https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails&id=%s&key=%s' % (video_ids,YOUTUBE_API_KEY)
             try:
                 resp = requests.get(url_api).json()
-            except:
+            except ValueError:
                 kodiutils.log(kodiutils.get_string(32005), xbmc.LOGERROR)
                 resp = None
 
@@ -86,17 +86,12 @@ def get_videos(name,playlist_id,token="",page_num=1):
                     videoid = video["id"]
                     # process duration
                     duration_string = video["contentDetails"]["duration"]
-                    print duration_string
-                    try:
-                        duration = addonutils.return_duration_as_seconds(duration_string)
-                        print duration
-                    except:
-                        duration = '0'
+                    duration = addonutils.return_duration_as_seconds(duration_string)
                     try:
                         aired = re.compile('(.+?)-(.+?)-(.+?)T').findall(aired)[0]
                         date = aired[2] + '.' + aired[1] + '.' + aired[0]
                         aired = aired[0] + '-' + aired[1] + '-' + aired[2]
-                    except:
+                    except IndexError:
                         aired = ''
                         date = ''
 
@@ -107,29 +102,21 @@ def get_videos(name,playlist_id,token="",page_num=1):
                     # Video and audio info
                     video_info = {'codec': 'avc1', 'aspect': 1.78}
                     audio_info = {'codec': 'aac', 'language': 'en'}
-                    try:
-                        if video["contentDetails"]["definition"].lower() == 'hd':
-                            video_info['width'] = 1280
-                            video_info['height'] = 720
-                            audio_info['channels'] = 2
-                        else:
-                            video_info['width'] = 854
-                            video_info['height'] = 480
-                            audio_info['channels'] = 1
-                        try:
-                            if xbmcaddon.Addon(id='plugin.video.youtube').getSetting(
-                                    'kodion.video.quality.ask') == 'false' and xbmcaddon.Addon(
-                                    id='plugin.video.youtube').getSetting('kodion.video.quality') != '3' and xbmcaddon.Addon(
-                                    id='plugin.video.youtube').getSetting('kodion.video.quality') != '4':
-                                video_info['width'] = 854
-                                video_info['height'] = 480
-                                audio_info['channels'] = 1
-                        except:
-                            pass
-                    except:
+                    if video["contentDetails"]["definition"].lower() == 'hd':
+                        video_info['width'] = 1280
+                        video_info['height'] = 720
+                        audio_info['channels'] = 2
+                    else:
                         video_info['width'] = 854
                         video_info['height'] = 480
                         audio_info['channels'] = 1
+                    if xbmcaddon.Addon(id='plugin.video.youtube').getSetting('kodion.video.quality.ask') == 'false' and xbmcaddon.Addon(
+                                    id='plugin.video.youtube').getSetting('kodion.video.quality') != '3' and xbmcaddon.Addon(
+                                    id='plugin.video.youtube').getSetting('kodion.video.quality') != '4':
+                        video_info['width'] = 854
+                        video_info['height'] = 480
+                        audio_info['channels'] = 1
+
                     yield build_video_item(title.encode('utf-8'), thumb, videoid, infolabels, video_info, audio_info)
 
     if totalpages > 1 and (page_num + 1) <= totalpages:
