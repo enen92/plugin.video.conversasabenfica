@@ -16,10 +16,10 @@
         <language>pt</language>
         <platform>all</platform>
         <license>GPL-3.0</license>
-        <forum></forum>
+        <forum>https://forum.kodi.tv/showthread.php?tid=319630</forum>
         <website>https://www.youtube.com/channel/UCpWxnp_Pe3PlJYBFeMIvitA</website>
         <email>enen92@kodi.tv</email>
-        <source></source>
+        <source>https://github.com/enen92/plugin.video.conversasabenfica</source>
         <news>The first version of the addon</news>
         <disclaimer></disclaimer>
         <assets>
