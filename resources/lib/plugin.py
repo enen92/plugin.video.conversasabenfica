@@ -60,4 +60,3 @@ def run():
         plugin.run()
     else:
         plugin.redirect("/videos")
-        #plugin.url_for(all_videos, playlist="all")
