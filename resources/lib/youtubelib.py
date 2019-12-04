@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 import requests
-import kodiutils
-import addonutils
 import xbmc
 import math
 import re
 import xbmcaddon
 from xbmcgui import ListItem
+
+from resources.lib import kodiutils, addonutils
 
 CHANNEL_ID = kodiutils.get_setting("channel_id")
 YOUTUBE_API_KEY = kodiutils.get_setting("api_key")

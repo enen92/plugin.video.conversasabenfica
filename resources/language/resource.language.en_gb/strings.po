@@ -53,3 +53,7 @@ msgstr ""
 msgctxt "#32008"
 msgid "Next page"
 msgstr ""
+
+msgctxt "#32009"
+msgid "General"
+msgstr ""
