@@ -21,7 +21,6 @@
         <email>enen92@kodi.tv</email>
         <source>https://github.com/enen92/plugin.video.conversasabenfica</source>
         <news>Support for python3</news>
-        <disclaimer></disclaimer>
         <assets>
             <icon>resources/images/icon.png</icon>
             <fanart>resources/images/fanart.jpg</fanart>
