@@ -58,7 +58,7 @@ def get_videos(name,playlist_id,token="",page_num=1):
 
     if resp:
         nextpagetoken = resp["nextPageToken"] if "nextPageToken" in list(resp.keys()) else ""
-        availablevideos = resp["pageInfo"]["totalResults"] if "pageInfo" in list(resp.keys()) and "totalResults" in resp["pageInfo"].keys() else 1
+        availablevideos = resp["pageInfo"]["totalResults"] if "pageInfo" in list(resp.keys()) and "totalResults" in list(resp["pageInfo"].keys()) else 1
 
         returnedVideos = resp["items"]
         totalpages = int(math.ceil((float(availablevideos) / items_per_page)))
